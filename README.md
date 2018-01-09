@@ -51,7 +51,7 @@ try:
 ```
 
 ```
-device.load_merge_candidate(filename='prefix_list.cfg')
+device.load_merge_candidate(filename='config_file.cfg')
 ```
 
 ## Running the code
