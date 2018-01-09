@@ -63,7 +63,7 @@ for router in router_list:
         password=device_data[router]['password'],
         username=device_data[router]['user'] )
     device.open()
-    device.load_merge_candidate(filename='prefix_list.cfg')
+    device.load_merge_candidate(filename='config_file.cfg')
     diffs = device.compare_config()
     print '='*10,'{}'.format(router),'='*10
     
