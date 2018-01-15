@@ -71,6 +71,7 @@ except (ValueError, IOError, OSError) as err:
 # router list for files to be added to client or reflector
 
 router_list = [router for router in device_data]
+router_list.sort()
 device_list = []
 
 for router in router_list:
@@ -80,5 +81,5 @@ for router in router_list:
     else:
         update_router_config(router, 'reflector_file.cfg')
 
-        if len(device_list) > 0:
-            make_changes(device_list)
+if len(device_list) > 0:
+    make_changes(device_list)
