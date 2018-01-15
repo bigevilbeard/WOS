@@ -5,25 +5,41 @@ import sys
 import json
 from napalm import get_network_driver
 
+# abort program with error message
+
 def merge_device(*msg_list):
-    """ abort program with error message """
     error_msg = ' '.join(str(x) for x in msg_list)
     sys.exit(error_msg.rstrip("\n\r"))
 
-def make_changes(device_list):
-    #while True:        
+# function for device information
+
+def update_router_config(router, filename):
+    driver = get_network_driver(device_data[router]['type'])
+    device = driver(hostname=device_data[router]['IP'],
+                    password=device_data[router]['password'],
+                    username=device_data[router]['user'])
+
+    device.open()
+    device.load_merge_candidate(filename=filename)
+    diffs = device.compare_config()
+    print '='*10,'{}'.format(router),'='*10
+    if diffs == "":
+        print("Configuration already applied")
+        device.discard_config()
+        device.close()
+    else:
+        print(diffs)
+        device_list.append([device,router])
+
+# function for making changes on diff
+
+def make_changes(device_list):        
     yes = {'yes','y', 'ye', ''}
     no = {'no','n'}
-    choice = raw_input('Deploy all devices yes or no [or q to quit]: ').lower()
-        
-    if choice == 'q':
-        print
-        print ("Exiting...")
-        sys.exit()
-
-        
+    choice = raw_input('Deploy all devices yes or no: ').lower()
+           
     if choice not in yes and no:
-        print("Please respond with 'yes' or 'no' [q to quit]:")
+        print("Please respond with 'yes' or 'no': ")
     
     for device in device_list:
         if choice in yes:
@@ -52,33 +68,17 @@ except (ValueError, IOError, OSError) as err:
     merge_device("Could not read the 'devices' file:", err)
 
 
-# Making a list of routers/keys from convert json.
+# router list for files to be added to client or reflector
 
 router_list = [router for router in device_data]
 device_list = []
 
 for router in router_list:
-    driver = get_network_driver(device_data[router]['type'])
-    device = driver(hostname=device_data[router]['IP'],
-        password=device_data[router]['password'],
-        username=device_data[router]['user'] )
-    device.open()
-    device.load_merge_candidate(filename='config_file.cfg')
-    diffs = device.compare_config()
-    print '='*10,'{}'.format(router),'='*10
-    
-    if diffs == "":
-        print("Configuration already applied")
-        device.discard_config()
-        device.close()
+    if device_data[router]['rr'] == "client":
+        update_router_config(router, 'client_file.cfg')
+
     else:
-        print(diffs)
-        device_list.append([device,router])
+        update_router_config(router, 'reflector_file.cfg')
 
-if len(device_list) > 0:
-    make_changes(device_list)
-
-
-
-
-
+        if len(device_list) > 0:
+            make_changes(device_list)
