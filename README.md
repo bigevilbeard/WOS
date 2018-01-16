@@ -2,6 +2,14 @@
 Napalm demo showing how to automate changes to Cisco IOS-XR using the merging configuration.
 NAPALM tries to provide a common interface and mechanisms to push configuration and retrieve state data from network devices.
 
+## Install Napalm
+
+Start first by installing the napalm module in python using PIP
+
+```
+pip install napalm
+```
+
 ## Create the JSON
 
 The json file acts like a backend php/sql db would, this holds the device 
@@ -51,7 +59,7 @@ try:
 ```
 
 ```
-device.load_merge_candidate(filename='config_file.cfg')
+update_router_config(router, 'file_name.cfg')
 ```
 
 ## Running the code
@@ -60,3 +68,5 @@ device.load_merge_candidate(filename='config_file.cfg')
 Python napalm_many_nodes.py
 ```
 You will see you are shown a diff (or if the configurtion is in place already a note saying this is already applied) and then the option to eyeball the change, discard or push/commit the change to the devices.
+
+
