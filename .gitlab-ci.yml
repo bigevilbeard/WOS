@@ -1,0 +1,16 @@
+stages:
+  - deploy
+  - test
+
+deploy_bgp_with_napalm:
+  stage: deploy
+  image: kecorbin/napalm
+  script:
+    # TODO: need to add flag for non-interactive deployment
+    - python napalm_many_nodes.py
+
+run_bgp_tests:
+  stage: test
+  image: ciscotestautomation/pyats
+  script:
+    - echo Executing pyATS/Genie testing
