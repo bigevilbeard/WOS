@@ -1,20 +1,20 @@
 {
   "router:1": {
-    "IP": "10.4.37.15",
+    "IP": "10.94.241.179",
     "type": "iosxr",
     "user": "cisco",
     "password": "cisco",
     "rr": "reflector"
   },
   "router:2": {
-    "IP": "10.4.37.16",
+    "IP": "10.94.241.171",
     "type": "iosxr",
     "user": "cisco",
     "password": "cisco",
     "rr": "client"
   },
   "router:3": {
-    "IP": "10.4.37.17",
+    "IP": "10.94.241.172",
     "type": "iosxr",
     "user": "cisco",
     "password": "cisco",
