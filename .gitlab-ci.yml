@@ -1,0 +1,38 @@
+stages:
+  - deploy_to_test
+  - verify_deploy_to_test
+  - deploy_to_prod
+  - verify_deploy_to_prod
+
+deploy_bgp_to_test_with_napalm:
+  stage: deploy_to_test
+  image: kecorbin/napalm
+  only:
+    - test
+  script:
+    - python napalm_many_nodes.py --inventory test.json --auto
+
+run_bgp_tests_in_test:
+  stage: verify_deploy_to_test
+  image: ciscotestautomation/pyats
+  only:
+    - test
+  script:
+    - echo Executing pyATS/Genie testing in test environment
+
+deploy_to_prod:
+  stage: deploy_to_prod
+  image: kecorbin/napalm
+  only:
+    - production
+  script:
+    - python napalm_many_nodes.py --inventory prod.json --auto
+
+
+run_bgp_tests_in_test:
+  stage: verify_deploy_to_prod
+  image: ciscotestautomation/pyats
+  only:
+    - production
+  script:
+    - echo Executing pyATS/Genie testing in production environment

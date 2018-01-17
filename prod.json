@@ -1,0 +1,23 @@
+{
+  "router:1": {
+    "IP": "10.94.242.179",
+    "type": "iosxr",
+    "user": "cisco",
+    "password": "cisco",
+    "rr": "reflector"
+  },
+  "router:2": {
+    "IP": "10.94.242.171",
+    "type": "iosxr",
+    "user": "cisco",
+    "password": "cisco",
+    "rr": "client"
+  },
+  "router:3": {
+    "IP": "10.94.242.172",
+    "type": "iosxr",
+    "user": "cisco",
+    "password": "cisco",
+    "rr": "client"
+ }
+}
